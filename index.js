@@ -8,16 +8,19 @@ const productRoute = require('./routes/product');
 const cartRoute = require('./routes/cart');
 
 app = express();
-app.use(cors());
+app.use(cors({
+  origin: 'https://skiek-integrated.onrender.com',
+  // You can add more options if needed
+}));
 dotenv.config();
 
 mongoose
   .connect(process.env.MONGODB_URL)
   .then(() => {
-    console.log('I created my first mongodb');
+    console.log('Connected to MongoDB');
   })
   .catch((err) => {
-    console.log(err);
+    console.error('Error connecting to MongoDB:', err);
   });
 
 app.use(express.json());
@@ -27,5 +30,5 @@ app.use('/api/products', productRoute);
 app.use('/api/carts', cartRoute);
 
 app.listen(process.env.PORT || 5000, () => {
-  console.log('my own backend');
+  console.log('Server is running');
 });
